@@ -64,7 +64,7 @@ export default function Home() {
           Envoyer
         </button>
       </div>
-      <div className="w-full bg-blue-100">{recipe}</div>
+      <pre>{recipe}</pre>
     </main>
   );
 }

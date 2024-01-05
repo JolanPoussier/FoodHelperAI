@@ -11,7 +11,7 @@ export const POST = async (req: Request) => {
     messages: [
       {
         role: "assistant",
-        content: `Ecris en français une recette étape par étape, avec étapes numérotées et quantités et temps bien précis.`,
+        content: `Ecris une recette étape par étape, avec étapes numérotées et quantités et temps bien précis`,
       },
       {
         role: "user",
