@@ -11,6 +11,10 @@ export default function Home() {
     setDataForm(data);
   };
 
+  const handleClear = () => {
+    setRecipe("");
+  };
+
   const handleSubmit = async () => {
     if (loading) return;
     setLoading(true);
@@ -18,6 +22,7 @@ export default function Home() {
       method: "POST",
       body: JSON.stringify({ dataForm }),
     });
+    setDataForm("");
 
     const body = result.body;
 
@@ -36,7 +41,6 @@ export default function Home() {
       }
 
       const chunk = new TextDecoder().decode(value);
-      chunk.replace("\n", "<br/>");
       setRecipe((prev) => prev + chunk);
       await readChunk();
     };
@@ -44,12 +48,28 @@ export default function Home() {
     await readChunk();
   };
 
+  const formatRecipe = (recipe: string) => {
+    const lines = recipe.split("\n");
+
+    const formattedLines = lines.map((line) => {
+      if (line.startsWith("Ingrédients:") || line.startsWith("Instructions:")) {
+        // Envelopper la ligne dans des balises <strong>
+        return `<span class="text-xl font-bold">${line}</span>`;
+      }
+      return line;
+    });
+
+    return formattedLines.join("\n");
+  };
+
+  const formattedRecipe = formatRecipe(recipe);
+
   return (
     <main className="h-full relative w-4/5 mx-auto bg-grey-400">
       <h1 className="text-center pt-3 text-3xl font-bold">
         Préparez votre repas
       </h1>
-      <div className="w-full pt-4 flex justify-center">
+      <div className="w-full pt-4 flex justify-center pb-6">
         <input
           value={dataForm}
           onChange={(e) => handleDataChange(e.target.value)}
@@ -64,7 +84,23 @@ export default function Home() {
           Envoyer
         </button>
       </div>
-      <pre>{recipe}</pre>
+      <pre className=" w-full whitespace-pre-wrap overflow-wrap-break-word">
+        <div className="text-center text-2xl font-bold">
+          {recipe.split("\n")[0]}
+        </div>
+        <span
+          className="block text-center"
+          dangerouslySetInnerHTML={{ __html: formattedRecipe }}
+        />
+
+        {recipe.substring(recipe.indexOf("\n") + 1)}
+      </pre>
+      <button
+        onClick={() => handleClear()}
+        className="bg-blue-600 rounded-md p-1 ml-3"
+      >
+        Nettoyer
+      </button>
     </main>
   );
 }
