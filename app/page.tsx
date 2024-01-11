@@ -1,6 +1,7 @@
 "use client";
 
 import { useState } from "react";
+import { formatRecipe } from "./src/utils/formatRecipe";
 
 export default function Home() {
   const [dataForm, setDataForm] = useState("");
@@ -48,20 +49,6 @@ export default function Home() {
     await readChunk();
   };
 
-  const formatRecipe = (recipe: string) => {
-    const lines = recipe.split("\n");
-
-    const formattedLines = lines.map((line) => {
-      if (line.startsWith("Ingrédients:") || line.startsWith("Instructions:")) {
-        // Envelopper la ligne dans des balises <strong>
-        return `<span class="text-xl font-bold">${line}</span>`;
-      }
-      return line;
-    });
-
-    return formattedLines.join("\n");
-  };
-
   const formattedRecipe = formatRecipe(recipe);
 
   return (
@@ -85,15 +72,15 @@ export default function Home() {
         </button>
       </div>
       <pre className=" w-full whitespace-pre-wrap overflow-wrap-break-word">
-        <div className="text-center text-2xl font-bold">
+        {/* <div className="text-center text-2xl font-bold">
           {recipe.split("\n")[0]}
-        </div>
+        </div> */}
         <span
-          className="block text-center"
+          className="block"
           dangerouslySetInnerHTML={{ __html: formattedRecipe }}
         />
 
-        {recipe.substring(recipe.indexOf("\n") + 1)}
+        {/* {recipe.substring(recipe.indexOf("\n") + 1)} */}
       </pre>
       <button
         onClick={() => handleClear()}

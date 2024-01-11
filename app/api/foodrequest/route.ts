@@ -1,5 +1,4 @@
 import { openai } from "@/app/src/lib/openai";
-import { NextResponse } from "next/server";
 import { OpenAIStream, StreamingTextResponse } from "ai";
 
 export const POST = async (req: Request) => {
@@ -18,10 +17,15 @@ export const POST = async (req: Request) => {
     * You have to use only the ingredients given in the prompts, except for the aromatics, spices or optionnals ingredients. 
     * You have to respect the limited quantity of ingredients but you can use only a part of those if you dont need the totality.
     * You don't have to use all the different ingredients for the recipe. 
-    * You have to take in consideration the nomber of persons, the time, and the kitchen equipment"
+    * You have to take in consideration the number of persons, the time, and the kitchen equipment
     * You can add spices and aromatics without them to be in the prompt 
     * You have to write only the name of the recipe and the content of it 
-    * You have to skip a line between each step
+    * First line HAS TO BE the name of the recipe
+    * You can ONLY USE the kitchen equipment of the prompt
+    * Don't skip a line between the different steps
+    * Don't skip a after a recipe preparation step
+    * Don't skip a line after a line that start with a number
+    * You have to introduce the recipe with "Ingrédients:" for the ingredients, "Matériel nécessaire:" for the needed kitchen equipment and "Préparation:" for the different steps in this specific order. Dont skip a line after those lines.
     `;
   const { dataForm } = await req.json();
 
