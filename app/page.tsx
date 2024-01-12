@@ -4,6 +4,7 @@ import { useState } from "react";
 import { formatRecipe } from "./src/utils/formatRecipe";
 import Input from "./components/input";
 import Button from "./components/button";
+import DisplayIngredients from "./components/displayIngredients";
 
 export default function Home() {
   const [dataForm, setDataForm] = useState("");
@@ -115,20 +116,6 @@ export default function Home() {
             </div>
           </div>
         </div>
-
-        {/* <input
-          value={dataForm}
-          onChange={(e) => handleDataChange(e.target.value)}
-          type="textarea"
-          id="content"
-          className="w-1/2 p-1 gap-4 rounded-md"
-        ></input>
-        <button
-          onClick={() => handleSubmit()}
-          className="bg-blue-600 rounded-md p-1 ml-3"
-        >
-          Envoyer
-        </button> */}
       </div>
       <h1 className="text-center pt-3 text-3xl font-bold">
         Ingrédients disponibles
@@ -164,19 +151,19 @@ export default function Home() {
           </div>
         </div>
       </div>
-
+      <div className="">
+        <DisplayIngredients
+          setState={setState}
+          state={state}
+          ingredients={state.ingredientList}
+        />
+      </div>
       <pre className=" w-full whitespace-pre-wrap overflow-wrap-break-word">
         <span
           className="block"
           dangerouslySetInnerHTML={{ __html: formattedRecipe }}
         />
       </pre>
-      <button
-        onClick={() => handleClear()}
-        className="bg-blue-600 rounded-md p-1 ml-3"
-      >
-        Nettoyer
-      </button>
     </main>
   );
 }
