@@ -5,6 +5,7 @@ import { formatRecipe } from "./src/utils/formatRecipe";
 import Input from "./components/input";
 import Button from "./components/button";
 import DisplayIngredients from "./components/displayIngredients";
+import DropMenu from "./components/dropMenu";
 
 export default function Home() {
   const [dataForm, setDataForm] = useState("");
@@ -136,7 +137,7 @@ export default function Home() {
           </div>
           <div>
             <div>Quantité (facultatif)</div>
-            <div>
+            <div className="flex flex-row">
               <Input
                 classname="w-1/2 p-1 gap-4 rounded-md"
                 section="quantityNumber"
@@ -144,14 +145,21 @@ export default function Home() {
                 value={state.quantityNumber}
                 onChange={handleDataChange}
               />
+              <div className="pl-2">
+                <DropMenu state={state} setState={setState} />
+              </div>
             </div>
           </div>
-          <div>
-            <Button text="+" onClick={handleSubmitIngredient} />
+          <div className="self-end">
+            <Button
+              classname="w-8 h-8"
+              text="+"
+              onClick={handleSubmitIngredient}
+            />
           </div>
         </div>
       </div>
-      <div className="">
+      <div className="h-3/5 overflow-x-auto">
         <DisplayIngredients
           setState={setState}
           state={state}

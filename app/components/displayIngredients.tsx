@@ -1,5 +1,6 @@
 import { SetStateAction } from "react";
 import Button from "./button";
+import { setState, state } from "../src/services/type";
 
 export default function DisplayIngredients({
   ingredients,
@@ -7,30 +8,8 @@ export default function DisplayIngredients({
   state,
 }: {
   ingredients: { quantity: string; ingredient: string }[];
-  setState: (
-    value: SetStateAction<{
-      persons: string;
-      ingredientList: {
-        quantity: string;
-        ingredient: string;
-      }[];
-      cookingTime: string;
-      ingredient: string;
-      quantityNumber: string;
-      quantityUnit: string;
-    }>
-  ) => void;
-  state: {
-    persons: string;
-    ingredientList: {
-      quantity: string;
-      ingredient: string;
-    }[];
-    cookingTime: string;
-    ingredient: string;
-    quantityNumber: string;
-    quantityUnit: string;
-  };
+  setState: setState;
+  state: state;
 }) {
   const handleDelete = (index: number) => {
     setState({
@@ -39,7 +18,7 @@ export default function DisplayIngredients({
     });
   };
   return (
-    <div className="flex w-full h-1/2 flex flex-col overflow-x-auto">
+    <div className="flex w-full h-full flex flex-col flex-wrap">
       {ingredients.map((ingredient, index) => (
         <div
           className="font-mono text-white rounded text-lg font-bold w-60 bg-blue-500 p-2 mb-3"
