@@ -5,6 +5,7 @@ type Props = {
   onChange?: (text: string, section: string) => void;
   onClick?: () => void;
   section: string;
+  errorMessage?: string;
 };
 
 export default function Input({
@@ -14,15 +15,21 @@ export default function Input({
   onChange,
   onClick,
   section,
+  errorMessage,
 }: Props) {
   return (
-    <input
-      className={classname}
-      placeholder={placeholder}
-      type="text"
-      value={value}
-      onChange={(e) => onChange?.(e.target.value, section)}
-      onClick={() => onClick?.()}
-    />
+    <div>
+      <input
+        className={`${
+          errorMessage ? "border border-red-500" : ""
+        } ${classname}`}
+        placeholder={placeholder}
+        type="text"
+        value={value}
+        onChange={(e) => onChange?.(e.target.value, section)}
+        onClick={() => onClick?.()}
+      />
+      <div className="text-red-500">{errorMessage}</div>
+    </div>
   );
 }

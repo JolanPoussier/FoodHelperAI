@@ -6,11 +6,17 @@ import Input from "./components/input";
 import Button from "./components/button";
 import DisplayIngredients from "./components/displayIngredients";
 import DropMenu from "./components/dropMenu";
+import { Plus } from "lucide-react";
 
 export default function Home() {
   const [dataForm, setDataForm] = useState("");
   const [recipe, setRecipe] = useState("");
   const [loading, setLoading] = useState(false);
+  const [errorState, setErrorState] = useState({
+    persons: false,
+    ingredient: false,
+    ingredientList: false,
+  });
   const [state, setState] = useState({
     persons: "",
     ingredientList: [] as { quantity: string; ingredient: string }[],
@@ -22,29 +28,35 @@ export default function Home() {
 
   const handleDataChange = (data: string, section: string) => {
     setState({ ...state, [section]: data });
+    setErrorState({ ...errorState, [section]: false });
     console.log(data);
     console.log(section);
   };
 
   const handleSubmitIngredient = () => {
-    setState({
-      ...state,
-      ingredientList: [
-        ...state.ingredientList,
-        {
-          quantity: `${state.quantityNumber}${state.quantityUnit}`,
-          ingredient: state.ingredient,
-        },
-      ],
-      ingredient: "",
-      quantityNumber: "",
-      quantityUnit: "",
-    });
+    state.ingredient !== ""
+      ? setState({
+          ...state,
+          ingredientList: [
+            ...state.ingredientList,
+            {
+              quantity: `${state.quantityNumber}${state.quantityUnit}`,
+              ingredient: state.ingredient,
+            },
+          ],
+          ingredient: "",
+          quantityNumber: "",
+          quantityUnit: "",
+        })
+      : throwError("ingredient");
   };
 
-  const handleClear = () => {
-    setRecipe("");
+  const throwError = (errorName: string) => {
+    setErrorState({ ...errorState, [errorName]: true });
   };
+
+  // const handleClear = () => {
+  // };
 
   const handleSubmit = async () => {
     if (loading) return;
@@ -124,6 +136,9 @@ export default function Home() {
             <div>
               <Input
                 classname="w-1/2 p-1 gap-4 rounded-md"
+                errorMessage={
+                  errorState.ingredient ? "Entrez un ingrédient" : ""
+                }
                 section="ingredient"
                 placeholder="carottes"
                 value={state.ingredient}
@@ -135,7 +150,7 @@ export default function Home() {
             <div>Quantité (facultatif)</div>
             <div className="flex flex-row">
               <Input
-                classname="w-1/2 p-1 gap-4 rounded-md"
+                classname="w-1/2 p-1 gap-4 rounded-md $"
                 section="quantityNumber"
                 placeholder="30"
                 value={state.quantityNumber}
@@ -146,8 +161,8 @@ export default function Home() {
               </div>
               <div className="self-end pl-12">
                 <Button
-                  classname="w-9 h-9"
-                  text="+"
+                  classname="w-9 h-9 flex justify-center items-center	"
+                  text={<Plus />}
                   onClick={handleSubmitIngredient}
                 />
               </div>
