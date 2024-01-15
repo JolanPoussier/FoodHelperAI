@@ -20,8 +20,8 @@ export default function DisplayIngredients({
   return (
     <div className="flex w-full h-full flex flex-col flex-wrap">
       {ingredients.map((ingredient, index) => (
-        <div key={index} className="flex mb-3">
-          <div className="font-mono text-white rounded text-lg font-bold w-60 bg-blue-500 p-2 mr-3">
+        <div key={index} className="flex mb-3 mr-8">
+          <div className="font-mono text-white rounded text-lg font-bold w-60 bg-blue-500 p-2 mr-1.5">
             {ingredient.quantity ? `${ingredient.quantity} ` : ""}
 
             {ingredient.ingredient.charAt(0).toUpperCase() +

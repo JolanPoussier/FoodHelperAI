@@ -18,7 +18,7 @@ export default function Input({
   errorMessage,
 }: Props) {
   return (
-    <div>
+    <>
       <input
         className={`${
           errorMessage ? "border border-red-500" : ""
@@ -30,6 +30,6 @@ export default function Input({
         onClick={() => onClick?.()}
       />
       <div className="text-red-500">{errorMessage}</div>
-    </div>
+    </>
   );
 }

@@ -7,6 +7,7 @@ import Button from "./components/button";
 import DisplayIngredients from "./components/displayIngredients";
 import DropMenu from "./components/dropMenu";
 import { Plus } from "lucide-react";
+import SuggestionsList from "./components/suggestionsList";
 
 export default function Home() {
   const [dataForm, setDataForm] = useState("");
@@ -100,11 +101,11 @@ export default function Home() {
       <h1 className="pt-3 pb-5 text-3xl font-bold">Préparez votre repas</h1>
       <div className="w-full pt-4 flex pb-6">
         <div className="flex flex-col md:flex-row">
-          <div className="w-48 mb-4 md:mb-0">
+          <div className="w-56 mb-4 md:mb-0">
             <div>Pour</div>
             <div>
               <Input
-                classname="w-1/4 p-1 gap-4 rounded-md"
+                classname="w-20 p-1 gap-4 rounded-md"
                 section="persons"
                 placeholder="2"
                 value={state.persons}
@@ -117,7 +118,7 @@ export default function Home() {
             <div>Temps de préparation maximum (facultatif)</div>
             <div>
               <Input
-                classname="w-1/4 p-1 gap-4 rounded-md"
+                classname="w-20 p-1 gap-4 rounded-md"
                 section="cookingTime"
                 placeholder="30"
                 value={state.cookingTime}
@@ -131,11 +132,11 @@ export default function Home() {
       <h1 className="pt-3 text-3xl font-bold">Ingrédients disponibles</h1>
       <div className="w-full pt-4 flex pb-6">
         <div className="flex flex-col md:flex-row">
-          <div className="w-48  mb-4 md:mb-0">
+          <div className="w-56  mb-4 md:mb-0">
             <div>Aliment</div>
             <div>
               <Input
-                classname="w-1/2 p-1 gap-4 rounded-md"
+                classname="w-44 p-1 gap-4 rounded-md"
                 errorMessage={
                   errorState.ingredient ? "Entrez un ingrédient" : ""
                 }
@@ -150,7 +151,7 @@ export default function Home() {
             <div>Quantité (facultatif)</div>
             <div className="flex flex-row">
               <Input
-                classname="w-1/2 p-1 gap-4 rounded-md $"
+                classname="w-20 p-1 gap-4 rounded-md $"
                 section="quantityNumber"
                 placeholder="30"
                 value={state.quantityNumber}
@@ -159,7 +160,7 @@ export default function Home() {
               <div className="pl-2">
                 <DropMenu state={state} setState={setState} />
               </div>
-              <div className="self-end pl-12">
+              <div className="self-end pl-28">
                 <Button
                   classname="w-9 h-9 flex justify-center items-center	"
                   text={<Plus />}
@@ -170,15 +171,19 @@ export default function Home() {
           </div>
         </div>
       </div>
+      <div className="text-2xl font-bold pb-2">Suggestions</div>
+      <div className="h-24 overflow-x-auto mb-6">
+        <SuggestionsList state={state} setState={setState} />
+      </div>
       <div className="text-2xl font-bold pb-2">Liste :</div>
-      <div className="h-3/5 overflow-x-auto">
+      <div className="h-2/5 overflow-x-auto">
         <DisplayIngredients
           setState={setState}
           state={state}
           ingredients={state.ingredientList}
         />
       </div>
-      <pre className=" w-full whitespace-pre-wrap overflow-wrap-break-word">
+      <pre className="w-full whitespace-pre-wrap overflow-wrap-break-word">
         <span
           className="block"
           dangerouslySetInnerHTML={{ __html: formattedRecipe }}
