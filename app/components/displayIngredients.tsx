@@ -1,6 +1,6 @@
-import { SetStateAction } from "react";
 import Button from "./button";
 import { setState, state } from "../src/services/type";
+import { Trash2 } from "lucide-react";
 
 export default function DisplayIngredients({
   ingredients,
@@ -20,15 +20,18 @@ export default function DisplayIngredients({
   return (
     <div className="flex w-full h-full flex flex-col flex-wrap">
       {ingredients.map((ingredient, index) => (
-        <div
-          className="font-mono text-white rounded text-lg font-bold w-60 bg-blue-500 p-2 mb-3 mr-3"
-          key={index}
-        >
-          {ingredient.quantity ? `${ingredient.quantity} ` : ""}
+        <div key={index} className="flex mb-3">
+          <div className="font-mono text-white rounded text-lg font-bold w-60 bg-blue-500 p-2 mr-3">
+            {ingredient.quantity ? `${ingredient.quantity} ` : ""}
 
-          {ingredient.ingredient.charAt(0).toUpperCase() +
-            ingredient.ingredient.slice(1)}
-          <Button text="delete" onClick={() => handleDelete(index)} />
+            {ingredient.ingredient.charAt(0).toUpperCase() +
+              ingredient.ingredient.slice(1)}
+          </div>
+          <Button
+            text={<Trash2 />}
+            classname="px-2.5"
+            onClick={() => handleDelete(index)}
+          />
         </div>
       ))}
     </div>
