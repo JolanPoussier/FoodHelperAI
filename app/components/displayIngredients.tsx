@@ -21,7 +21,7 @@ export default function DisplayIngredients({
     <div className="flex w-full h-full flex flex-col flex-wrap">
       {ingredients.map((ingredient, index) => (
         <div
-          className="font-mono text-white rounded text-lg font-bold w-60 bg-blue-500 p-2 mb-3"
+          className="font-mono text-white rounded text-lg font-bold w-60 bg-blue-500 p-2 mb-3 mr-3"
           key={index}
         >
           {ingredient.quantity ? `${ingredient.quantity} ` : ""}

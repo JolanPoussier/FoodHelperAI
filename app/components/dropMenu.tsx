@@ -9,17 +9,16 @@ export default function MyDropdown({
   state: state;
 }) {
   const [isDropdownOpen, setDropdownOpen] = useState(false);
-  const [unitySelection, setUnitySelection] = useState("-");
+  const unityTab = ["-", "g", "kg", "ml", "L"];
 
   const toggleDropdown = () => {
     setDropdownOpen(!isDropdownOpen);
   };
 
   const handleUnitySelection = (unity: string) => {
-    setState({ ...state, quantityUnit: unity });
+    setState({ ...state, quantityUnit: unity === "-" ? "" : unity });
   };
 
-  // Fermer le menu si on clique à l'extérieur de celui-ci
   const closeDropdown = (
     event: React.MouseEvent<HTMLDivElement, MouseEvent>
   ) => {
@@ -32,25 +31,23 @@ export default function MyDropdown({
 
   return (
     <div className="absolute inline-block text-left" onClick={closeDropdown}>
+      <div
+        className={`${
+          isDropdownOpen ? "z-1" : "hidden"
+        } overflow-y-auto overflow-x-hidden fixed top-0 right-0 left-0 justify-center items-center w-full md:inset-0 h-[calc(100%-1rem)] max-h-full`}
+      ></div>
       <button
         id="dropdownDefaultButton"
         onClick={toggleDropdown}
-        className="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-1.5 text-center inline-flex items-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
+        className="text-white bg-gray-600 hover:bg-gray-700 focus:ring-gray-800 focus:ring-4 focus:outline-none font-medium rounded-lg text-sm px-5 py-2 text-center inline-flex items-center"
         type="button"
       >
         {state.quantityUnit == "" ? "-" : state.quantityUnit}
-        {/* <path
-          stroke="currentColor"
-          strokeLinecap="round"
-          strokeLinejoin="round"
-          strokeWidth="2"
-          d="m1 1 4 4 4-4"
-        /> */}
       </button>
 
       <div
         id="dropdown"
-        className={`z-10 ${
+        className={`z-50 absolute ${
           isDropdownOpen ? "" : "hidden"
         } bg-white divide-y divide-gray-100 rounded-lg shadow w-15 dark:bg-gray-700`}
       >
@@ -58,30 +55,16 @@ export default function MyDropdown({
           className="py-2 text-sm text-gray-700 dark:text-gray-200"
           aria-labelledby="dropdownDefaultButton"
         >
-          <li>
-            <button
-              onClick={() => handleUnitySelection("")}
-              className="block w-full px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white"
-            >
-              -
-            </button>
-          </li>
-          <li>
-            <button
-              onClick={() => handleUnitySelection("g")}
-              className="block w-full px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white"
-            >
-              g
-            </button>
-          </li>
-          <li>
-            <button
-              onClick={() => handleUnitySelection("cl")}
-              className="block w-full px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white"
-            >
-              cl
-            </button>
-          </li>
+          {unityTab.map((unity, index) => (
+            <li key={index}>
+              <button
+                onClick={() => handleUnitySelection(unity)}
+                className="block w-full px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white"
+              >
+                {unity}
+              </button>
+            </li>
+          ))}
         </ul>
       </div>
     </div>

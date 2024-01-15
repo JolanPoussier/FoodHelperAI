@@ -84,46 +84,42 @@ export default function Home() {
   console.log(state);
 
   return (
-    <main className="h-full relative w-4/5 mx-auto bg-grey-400">
-      <h1 className="text-center pt-3 text-3xl font-bold">
-        Préparez votre repas
-      </h1>
-      <div className="w-full pt-4 flex justify-center pb-6">
-        <div className="flex flex-row text-l">
-          <div className="text-l">
+    <main className="h-full text-lg relative w-4/5 mx-auto bg-grey-400">
+      <h1 className="pt-3 pb-5 text-3xl font-bold">Préparez votre repas</h1>
+      <div className="w-full pt-4 flex pb-6">
+        <div className="flex flex-col md:flex-row">
+          <div className="w-48 mb-4 md:mb-0">
             <div>Pour</div>
             <div>
               <Input
-                classname="w-1/2 p-1 gap-4 rounded-md"
+                classname="w-1/4 p-1 gap-4 rounded-md"
                 section="persons"
                 placeholder="2"
                 value={state.persons}
                 onChange={handleDataChange}
               />
-              personne(s)
+              &nbsp;personne(s)
             </div>
           </div>
-          <div>
+          <div className="">
             <div>Temps de préparation maximum (facultatif)</div>
             <div>
               <Input
-                classname="w-1/2 p-1 gap-4 rounded-md"
+                classname="w-1/4 p-1 gap-4 rounded-md"
                 section="cookingTime"
                 placeholder="30"
                 value={state.cookingTime}
                 onChange={handleDataChange}
               />
-              min
+              &nbsp;min
             </div>
           </div>
         </div>
       </div>
-      <h1 className="text-center pt-3 text-3xl font-bold">
-        Ingrédients disponibles
-      </h1>
-      <div className="w-full pt-4 flex justify-center pb-6">
-        <div className="flex flex-row text-l">
-          <div className="text-l">
+      <h1 className="pt-3 text-3xl font-bold">Ingrédients disponibles</h1>
+      <div className="w-full pt-4 flex pb-6">
+        <div className="flex flex-col md:flex-row">
+          <div className="w-48  mb-4 md:mb-0">
             <div>Aliment</div>
             <div>
               <Input
@@ -148,17 +144,18 @@ export default function Home() {
               <div className="pl-2">
                 <DropMenu state={state} setState={setState} />
               </div>
+              <div className="self-end pl-12">
+                <Button
+                  classname="w-9 h-9"
+                  text="+"
+                  onClick={handleSubmitIngredient}
+                />
+              </div>
             </div>
-          </div>
-          <div className="self-end">
-            <Button
-              classname="w-8 h-8"
-              text="+"
-              onClick={handleSubmitIngredient}
-            />
           </div>
         </div>
       </div>
+      <div className="text-2xl font-bold pb-2">Liste :</div>
       <div className="h-3/5 overflow-x-auto">
         <DisplayIngredients
           setState={setState}
