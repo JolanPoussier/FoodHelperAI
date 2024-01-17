@@ -6,13 +6,16 @@ import Input from "./components/input";
 import Button from "./components/button";
 import DisplayIngredients from "./components/displayIngredients";
 import DropMenu from "./components/dropMenu";
-import { Plus } from "lucide-react";
+import { Plus, Sparkles } from "lucide-react";
 import SuggestionsList from "./components/suggestionsList";
+import generateInstructions from "./src/utils/generateInstructions";
+import ModalDisplayRecipe from "./components/modalDisplay";
 
 export default function Home() {
-  const [dataForm, setDataForm] = useState("");
+  const [instructions, setInstructions] = useState("");
   const [recipe, setRecipe] = useState("");
   const [loading, setLoading] = useState(false);
+  const [isRecipeModalOpen, setisRecipeModalOpen] = useState(false);
   const [errorState, setErrorState] = useState({
     persons: false,
     ingredient: false,
@@ -30,8 +33,8 @@ export default function Home() {
   const handleDataChange = (data: string, section: string) => {
     setState({ ...state, [section]: data });
     setErrorState({ ...errorState, [section]: false });
-    console.log(data);
-    console.log(section);
+    // console.log(data);
+    // console.log(section);
   };
 
   const handleSubmitIngredient = () => {
@@ -56,17 +59,20 @@ export default function Home() {
     setErrorState({ ...errorState, [errorName]: true });
   };
 
-  // const handleClear = () => {
-  // };
+  const handleGenerateInstructions = () => {
+    setRecipe("");
+    setInstructions(generateInstructions({ state }));
+    setisRecipeModalOpen(true);
+  };
 
   const handleSubmit = async () => {
     if (loading) return;
     setLoading(true);
     const result = await fetch("/api/foodrequest", {
       method: "POST",
-      body: JSON.stringify({ dataForm }),
+      body: JSON.stringify({ instructions }),
     });
-    setDataForm("");
+    setInstructions("");
 
     const body = result.body;
 
@@ -92,9 +98,10 @@ export default function Home() {
     await readChunk();
   };
 
+  if (instructions) {
+    handleSubmit();
+  }
   const formattedRecipe = formatRecipe(recipe);
-
-  console.log(state);
 
   return (
     <main className="h-full text-lg relative w-4/5 mx-auto bg-grey-400">
@@ -103,7 +110,7 @@ export default function Home() {
         <div className="flex flex-col md:flex-row">
           <div className="w-56 mb-4 md:mb-0">
             <div>Pour</div>
-            <div>
+            <div className="flex items-center">
               <Input
                 classname="w-20 p-1 gap-4 rounded-md"
                 section="persons"
@@ -116,7 +123,7 @@ export default function Home() {
           </div>
           <div className="">
             <div>Temps de préparation maximum (facultatif)</div>
-            <div>
+            <div className="flex items-center">
               <Input
                 classname="w-20 p-1 gap-4 rounded-md"
                 section="cookingTime"
@@ -172,7 +179,7 @@ export default function Home() {
         </div>
       </div>
       <div className="text-2xl font-bold pb-2">Suggestions</div>
-      <div className="h-24 overflow-x-auto mb-6">
+      <div className="h-28 overflow-x-auto mb-6">
         <SuggestionsList state={state} setState={setState} />
       </div>
       <div className="text-2xl font-bold pb-2">Liste :</div>
@@ -183,12 +190,31 @@ export default function Home() {
           ingredients={state.ingredientList}
         />
       </div>
-      <pre className="w-full whitespace-pre-wrap overflow-wrap-break-word">
-        <span
-          className="block"
-          dangerouslySetInnerHTML={{ __html: formattedRecipe }}
+      <Button
+        text={
+          <span className="flex flex-raw">
+            {!recipe ? "Générer" : "Autre recette"}
+            &nbsp;&nbsp;&nbsp;
+            <Sparkles />
+          </span>
+        }
+        classname="mb-12"
+        onClick={handleGenerateInstructions}
+      />
+      {recipe ? (
+        <Button
+          classname="ml-8"
+          text="Résultat"
+          onClick={() => setisRecipeModalOpen(true)}
         />
-      </pre>
+      ) : (
+        ""
+      )}
+      <ModalDisplayRecipe
+        formattedRecipe={formattedRecipe}
+        setisRecipeModalOpen={setisRecipeModalOpen}
+        isRecipeModalOpen={isRecipeModalOpen}
+      />
     </main>
   );
 }

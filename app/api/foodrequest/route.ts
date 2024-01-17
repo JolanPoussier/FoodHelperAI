@@ -25,10 +25,9 @@ export const POST = async (req: Request) => {
     * Don't skip a line between the different steps
     * Don't skip a after a recipe preparation step
     * Don't skip a line after a line that start with a number
-    * You have to introduce the recipe with "Ingrédients:" for the ingredients, "Matériel nécessaire:" for the needed kitchen equipment and "Préparation:" for the different steps in this specific order. Dont skip a line after those lines.
+    * You have to introduce the recipe with the title/name of the recipe first then "Ingrédients:" for the ingredients, "Matériel nécessaire:" for the needed kitchen equipment and "Préparation:" for the different steps in this specific order. Dont skip a line after those lines.
     `;
-  const { dataForm } = await req.json();
-
+  const { instructions } = await req.json();
   const response = await openai.chat.completions.create({
     model: "gpt-3.5-turbo",
     stream: true,
@@ -39,7 +38,7 @@ export const POST = async (req: Request) => {
       },
       {
         role: "user",
-        content: dataForm,
+        content: instructions,
       },
     ],
   });

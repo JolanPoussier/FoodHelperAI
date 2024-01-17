@@ -10,14 +10,17 @@ export default function SuggestionsList({ setState, state }: Props) {
   const suggestionsList = [
     "Œufs",
     "Crème",
+    "Beurre",
     "Gruyère",
     "Poivre",
+    "Lait",
     "Huile",
-    "Beurre",
+    "Farine",
     "Curry",
     "Basilic",
+    "Sucre",
     "Origan",
-    "Lait",
+    "Levure",
     "Sauce Tomate",
   ];
 
@@ -41,7 +44,7 @@ export default function SuggestionsList({ setState, state }: Props) {
           onClick={() => handleSubmitSuggestion(suggestion)}
           text={suggestion}
           key={index}
-          classname="mr-4 mb-2"
+          classname="mr-4 mb-2 min-w-32"
         />
       ))}
     </div>
