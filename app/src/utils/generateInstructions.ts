@@ -14,6 +14,14 @@ ${state.ingredientList.map(
 ${state.persons ? `C’est une recette pour ${state.persons} personnes.` : ""}
 
 ${
+  state.kitchenEquipmentList.length > 0
+    ? `Le matériel disponible pour cuisiner est: ${state.kitchenEquipmentList.map(
+        (equipment) => `${equipment} `
+      )}`
+    : ""
+}
+
+${
   state.cookingTime
     ? `Cette recette devra pouvoir être cuisinée en moins de ${state.cookingTime} minutes.`
     : ""

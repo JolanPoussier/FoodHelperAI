@@ -41,21 +41,26 @@ export default function Home() {
   };
 
   const handleSubmitIngredient = () => {
-    state.ingredient !== ""
-      ? setState({
-          ...state,
-          ingredientList: [
-            ...state.ingredientList,
-            {
-              quantity: `${state.quantityNumber}${state.quantityUnit}`,
-              ingredient: state.ingredient,
-            },
-          ],
-          ingredient: "",
-          quantityNumber: "",
-          quantityUnit: "",
-        })
-      : throwError("ingredient");
+    if (state.ingredient !== "") {
+      setState({
+        ...state,
+        ingredientList: [
+          ...state.ingredientList,
+          {
+            quantity: `${state.quantityNumber}${state.quantityUnit}`,
+            ingredient: state.ingredient,
+          },
+        ],
+        ingredient: "",
+        quantityNumber: "",
+        quantityUnit: "",
+      });
+      state.ingredientList.length > 3
+        ? setErrorState({ ...errorState, ingredientList: false })
+        : "";
+    } else {
+      throwError("ingredient");
+    }
   };
 
   const throwError = (errorName: string) => {
@@ -63,9 +68,15 @@ export default function Home() {
   };
 
   const handleGenerateInstructions = () => {
-    setRecipe("");
-    setInstructions(generateInstructions({ state }));
-    setisRecipeModalOpen(true);
+    if (!state.persons) {
+      throwError("persons");
+    } else if (state.ingredientList.length < 4) {
+      throwError("ingredientList");
+    } else {
+      setRecipe("");
+      setInstructions(generateInstructions({ state }));
+      setisRecipeModalOpen(true);
+    }
   };
 
   const handleSubmit = async () => {
@@ -102,8 +113,14 @@ export default function Home() {
   };
 
   if (instructions) {
+    console.log(instructions);
     handleSubmit();
   }
+
+  if (state.ingredientList.length > 3) {
+    errorState.ingredientList ? (errorState.ingredientList = false) : "";
+  }
+
   const formattedRecipe = formatRecipe(recipe);
 
   return (
@@ -113,19 +130,20 @@ export default function Home() {
         <div className="flex flex-col md:flex-row">
           <div className="w-56 mb-4 md:mb-0">
             <div>Pour</div>
-            <div className="flex items-center">
+            <div className="flex content-start">
               <Input
-                classname="w-20 p-1 gap-4 rounded-md"
+                classname="w-20 p-1 rounded-md flex flex-col"
                 section="persons"
                 placeholder="2"
                 value={state.persons}
                 onChange={handleDataChange}
+                errorMessage={errorState.persons ? " " : ""}
               />
               &nbsp;personne(s)
             </div>
           </div>
           <div className="">
-            <div>Temps de préparation maximum (facultatif)</div>
+            <div>Temps de préparation (facultatif)</div>
             <div className="flex items-center">
               <Input
                 classname="w-20 p-1 gap-4 rounded-md"
@@ -139,16 +157,27 @@ export default function Home() {
           </div>
         </div>
       </div>
-      <div className="w-full flex flex-raw justify-between">
+      <div className="w-full flex flex-row justify-between my-6">
         {/* 
 
         Ingredient Side 
 
         */}
-        <div className="collapse lg:w-1/2 collapse-arrow border border-base-300 bg-base-200 h-fit">
+        <div
+          className={`collapse lg:w-1/2  collapse-arrow border border-base-300 bg-base-200 h-fit ${
+            errorState.ingredientList ? "border-red-500" : ""
+          }`}
+        >
           <input type="checkbox" />
           <h1 className="collapse-title pt-3 text-3xl font-bold">
             Ingrédients disponibles
+            {errorState.ingredientList ? (
+              <span className="pt-3 text-lg font-bold text-red-500">
+                &nbsp;&nbsp;&nbsp;(Min 3)
+              </span>
+            ) : (
+              ""
+            )}
           </h1>
           <div className="collapse-content">
             <div className="w-full pt-4 flex pb-6">
@@ -211,7 +240,7 @@ export default function Home() {
               />
             </div>
             <div className="text-2xl font-bold pb-2">Liste :</div>
-            <div className="h-96 overflow-x-auto">
+            <div className="h-80 overflow-x-auto">
               <DisplayList
                 setState={setState}
                 state={state}
@@ -227,7 +256,7 @@ export default function Home() {
         Kitchen Tools 
         
         */}
-        <div className="collapse lg:w-1/3  collapse-arrow border border-base-300 bg-base-200 flex-shrink-0 h-fit">
+        <div className="collapse lg:w-1/3  collapse-arrow border border-base-300 bg-base-200 h-fit ">
           <input type="checkbox" />
           <h1 className="collapse-title pt-3 text-3xl font-bold">
             Matériel disponible
@@ -275,7 +304,7 @@ export default function Home() {
               />
             </div>
             <div className="text-2xl font-bold pb-2">Liste :</div>
-            <div className="h-96 overflow-x-auto">
+            <div className="h-80 overflow-x-auto">
               <DisplayList
                 setState={setState}
                 state={state}

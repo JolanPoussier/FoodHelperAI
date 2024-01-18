@@ -21,7 +21,7 @@ export const POST = async (req: Request) => {
     * You can add spices and aromatics without them to be in the prompt 
     * You have to write only the name of the recipe and the content of it 
     * First line HAS TO BE the name of the recipe
-    * You can ONLY USE the kitchen equipment of the prompt
+    * You can ONLY USE the kitchen equipment available given by the user
     * Don't skip a line between the different steps
     * Don't skip a after a recipe preparation step
     * Don't skip a line after a line that start with a number
