@@ -11,6 +11,7 @@ export type setState = (
     ingredient: string;
     quantityNumber: string;
     quantityUnit: string;
+    kitchenEquipmentList: string[];
   }>
 ) => void;
 
@@ -24,4 +25,5 @@ export type state = {
   ingredient: string;
   quantityNumber: string;
   quantityUnit: string;
+  kitchenEquipmentList: string[];
 };

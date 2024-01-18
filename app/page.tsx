@@ -4,12 +4,16 @@ import { useState } from "react";
 import { formatRecipe } from "./src/utils/formatRecipe";
 import Input from "./components/input";
 import Button from "./components/button";
-import DisplayIngredients from "./components/displayIngredients";
 import DropMenu from "./components/dropMenu";
 import { Plus, Sparkles } from "lucide-react";
 import SuggestionsList from "./components/suggestionsList";
 import generateInstructions from "./src/utils/generateInstructions";
 import ModalDisplayRecipe from "./components/modalDisplay";
+import {
+  suggestionsListEquipments,
+  suggestionsListIngredients,
+} from "./src/services/datas";
+import DisplayList from "./components/displayList";
 
 export default function Home() {
   const [instructions, setInstructions] = useState("");
@@ -28,13 +32,12 @@ export default function Home() {
     ingredient: "",
     quantityNumber: "",
     quantityUnit: "",
+    kitchenEquipmentList: [] as string[],
   });
 
   const handleDataChange = (data: string, section: string) => {
     setState({ ...state, [section]: data });
     setErrorState({ ...errorState, [section]: false });
-    // console.log(data);
-    // console.log(section);
   };
 
   const handleSubmitIngredient = () => {
@@ -136,60 +139,155 @@ export default function Home() {
           </div>
         </div>
       </div>
-      <h1 className="pt-3 text-3xl font-bold">Ingrédients disponibles</h1>
-      <div className="w-full pt-4 flex pb-6">
-        <div className="flex flex-col md:flex-row">
-          <div className="w-56  mb-4 md:mb-0">
-            <div>Aliment</div>
-            <div>
-              <Input
-                classname="w-44 p-1 gap-4 rounded-md"
-                errorMessage={
-                  errorState.ingredient ? "Entrez un ingrédient" : ""
-                }
-                section="ingredient"
-                placeholder="carottes"
-                value={state.ingredient}
-                onChange={handleDataChange}
+      <div className="w-full flex flex-raw justify-between">
+        {/* 
+
+        Ingredient Side 
+
+        */}
+        <div className="collapse lg:w-1/2 collapse-arrow border border-base-300 bg-base-200 h-fit">
+          <input type="checkbox" />
+          <h1 className="collapse-title pt-3 text-3xl font-bold">
+            Ingrédients disponibles
+          </h1>
+          <div className="collapse-content">
+            <div className="w-full pt-4 flex pb-6">
+              <div className="flex flex-col md:flex-row">
+                <div className="w-56  mb-4 md:mb-0">
+                  <div>Ingrédient</div>
+                  <div>
+                    <Input
+                      classname="w-44 p-1 gap-4 rounded-md"
+                      errorMessage={
+                        errorState.ingredient ? "Entrez un ingrédient" : ""
+                      }
+                      section="ingredient"
+                      placeholder="carottes"
+                      value={state.ingredient}
+                      onChange={handleDataChange}
+                    />
+                  </div>
+                </div>
+                <div>
+                  <div>Quantité (facultatif)</div>
+                  <div className="flex flex-row">
+                    <Input
+                      classname="w-20 p-1 gap-4 rounded-md $"
+                      section="quantityNumber"
+                      placeholder="30"
+                      value={state.quantityNumber}
+                      onChange={handleDataChange}
+                    />
+                    <div className="pl-2">
+                      <DropMenu state={state} setState={setState} />
+                    </div>
+                    <div className="self-end pl-28">
+                      <Button
+                        classname="w-9 h-9 flex justify-center items-center	"
+                        text={<Plus />}
+                        onClick={handleSubmitIngredient}
+                      />
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div className="text-2xl font-bold pb-2">Suggestions</div>
+            <div className="h-28 overflow-x-auto mb-6 w-full">
+              <SuggestionsList
+                submitSuggestion={(suggestion) => {
+                  setState({
+                    ...state,
+                    ingredientList: [
+                      ...state.ingredientList,
+                      {
+                        quantity: "",
+                        ingredient: suggestion,
+                      },
+                    ],
+                  });
+                }}
+                suggestionList={suggestionsListIngredients}
+              />
+            </div>
+            <div className="text-2xl font-bold pb-2">Liste :</div>
+            <div className="h-96 overflow-x-auto">
+              <DisplayList
+                setState={setState}
+                state={state}
+                list={state.ingredientList}
+                listName="ingredientList"
               />
             </div>
           </div>
-          <div>
-            <div>Quantité (facultatif)</div>
-            <div className="flex flex-row">
-              <Input
-                classname="w-20 p-1 gap-4 rounded-md $"
-                section="quantityNumber"
-                placeholder="30"
-                value={state.quantityNumber}
-                onChange={handleDataChange}
+        </div>
+
+        {/* 
+        
+        Kitchen Tools 
+        
+        */}
+        <div className="collapse lg:w-1/3  collapse-arrow border border-base-300 bg-base-200 flex-shrink-0 h-fit">
+          <input type="checkbox" />
+          <h1 className="collapse-title pt-3 text-3xl font-bold">
+            Matériel disponible
+          </h1>
+          <div className="collapse-content">
+            <div className="w-full pt-4 flex pb-6">
+              <div className="flex flex-col md:flex-row">
+                <div className="w-56  mb-4 md:mb-0">
+                  <div>Matériel</div>
+                  <div className="flex flex-row">
+                    <Input
+                      classname="w-44 p-1 gap-4 rounded-md"
+                      errorMessage={
+                        errorState.ingredient ? "Entrez un ingrédient" : ""
+                      }
+                      section="ingredient"
+                      placeholder="Four"
+                      value={state.ingredient}
+                      onChange={handleDataChange}
+                    />
+                    <div className="self-end pl-28">
+                      <Button
+                        classname="w-9 h-9 flex justify-center items-center	"
+                        text={<Plus />}
+                        onClick={handleSubmitIngredient}
+                      />
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div className="text-2xl font-bold pb-2">Suggestions</div>
+            <div className="h-28 overflow-x-auto mb-6 w-full">
+              <SuggestionsList
+                submitSuggestion={(suggestion) => {
+                  setState({
+                    ...state,
+                    kitchenEquipmentList: [
+                      ...state.kitchenEquipmentList,
+                      suggestion,
+                    ],
+                  });
+                }}
+                suggestionList={suggestionsListEquipments}
               />
-              <div className="pl-2">
-                <DropMenu state={state} setState={setState} />
-              </div>
-              <div className="self-end pl-28">
-                <Button
-                  classname="w-9 h-9 flex justify-center items-center	"
-                  text={<Plus />}
-                  onClick={handleSubmitIngredient}
-                />
-              </div>
+            </div>
+            <div className="text-2xl font-bold pb-2">Liste :</div>
+            <div className="h-96 overflow-x-auto">
+              <DisplayList
+                setState={setState}
+                state={state}
+                list={state.kitchenEquipmentList}
+                listName="kitchenEquipmentList"
+              />
             </div>
           </div>
         </div>
       </div>
-      <div className="text-2xl font-bold pb-2">Suggestions</div>
-      <div className="h-28 overflow-x-auto mb-6">
-        <SuggestionsList state={state} setState={setState} />
-      </div>
-      <div className="text-2xl font-bold pb-2">Liste :</div>
-      <div className="h-2/5 overflow-x-auto">
-        <DisplayIngredients
-          setState={setState}
-          state={state}
-          ingredients={state.ingredientList}
-        />
-      </div>
+
+      {/* Validation Buttons */}
       <Button
         text={
           <span className="flex flex-raw">
@@ -198,7 +296,7 @@ export default function Home() {
             <Sparkles />
           </span>
         }
-        classname="mb-12"
+        classname="mb-12 mt-6"
         onClick={handleGenerateInstructions}
       />
       {recipe ? (

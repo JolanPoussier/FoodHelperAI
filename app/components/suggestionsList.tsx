@@ -1,50 +1,31 @@
-import { setState, state } from "../src/services/type";
+import { useState } from "react";
 import Button from "./button";
 
 type Props = {
-  setState: setState;
-  state: state;
+  suggestionList: string[];
+  submitSuggestion: (suggestion: string) => void;
 };
 
-export default function SuggestionsList({ setState, state }: Props) {
-  const suggestionsList = [
-    "Œufs",
-    "Crème",
-    "Beurre",
-    "Gruyère",
-    "Poivre",
-    "Lait",
-    "Huile",
-    "Farine",
-    "Curry",
-    "Basilic",
-    "Sucre",
-    "Origan",
-    "Levure",
-    "Sauce Tomate",
-  ];
-
-  const handleSubmitSuggestion = (suggestion: string) => {
-    setState({
-      ...state,
-      ingredientList: [
-        ...state.ingredientList,
-        {
-          quantity: "",
-          ingredient: suggestion,
-        },
-      ],
-    });
-  };
-
+export default function SuggestionsList({
+  suggestionList,
+  submitSuggestion,
+}: Props) {
+  const [suggestions, setSuggestions] = useState(suggestionList);
   return (
-    <div className="h-full flex flex-col flex-wrap">
-      {suggestionsList.map((suggestion, index) => (
+    <div className="h-full flex flex-col flex-wrap content-start">
+      {suggestions.slice(0, 8).map((suggestion, index) => (
         <Button
-          onClick={() => handleSubmitSuggestion(suggestion)}
+          onClick={() => {
+            submitSuggestion(suggestion);
+            setSuggestions(
+              suggestions.filter(
+                (suggestionItem) => suggestionItem !== suggestion
+              )
+            );
+          }}
           text={suggestion}
           key={index}
-          classname="mr-4 mb-2 min-w-32"
+          classname="mr-4 mb-2 min-w-32 max-w-40"
         />
       ))}
     </div>
