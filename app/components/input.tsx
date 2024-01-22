@@ -22,7 +22,7 @@ export default function Input({
       <input
         className={`${
           errorMessage ? "border border-red-500" : ""
-        } ${classname}`}
+        } ${classname} bg-secondary border`}
         placeholder={placeholder}
         type="text"
         value={value}

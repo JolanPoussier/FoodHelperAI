@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { FormEvent, useState } from "react";
 import { formatRecipe } from "./src/utils/formatRecipe";
 import Input from "./components/input";
 import Button from "./components/button";
@@ -14,6 +14,7 @@ import {
   suggestionsListIngredients,
 } from "./src/services/datas";
 import DisplayList from "./components/displayList";
+import Header from "./components/header";
 
 export default function Home() {
   const [instructions, setInstructions] = useState("");
@@ -24,12 +25,14 @@ export default function Home() {
     persons: false,
     ingredient: false,
     ingredientList: false,
+    equipment: false,
   });
   const [state, setState] = useState({
     persons: "",
     ingredientList: [] as { quantity: string; ingredient: string }[],
     cookingTime: "",
     ingredient: "",
+    equipment: "",
     quantityNumber: "",
     quantityUnit: "",
     kitchenEquipmentList: [] as string[],
@@ -40,7 +43,12 @@ export default function Home() {
     setErrorState({ ...errorState, [section]: false });
   };
 
-  const handleSubmitIngredient = () => {
+  const throwError = (errorName: string) => {
+    setErrorState({ ...errorState, [errorName]: true });
+  };
+
+  const handleSubmitIngredient = (e: FormEvent) => {
+    e.preventDefault();
     if (state.ingredient !== "") {
       setState({
         ...state,
@@ -62,9 +70,17 @@ export default function Home() {
       throwError("ingredient");
     }
   };
-
-  const throwError = (errorName: string) => {
-    setErrorState({ ...errorState, [errorName]: true });
+  const handleSubmitEquipment = (e: FormEvent) => {
+    e.preventDefault();
+    if (state.equipment !== "") {
+      setState({
+        ...state,
+        kitchenEquipmentList: [...state.kitchenEquipmentList, state.equipment],
+        equipment: "",
+      });
+    } else {
+      throwError("equipment");
+    }
   };
 
   const handleGenerateInstructions = () => {
@@ -124,8 +140,9 @@ export default function Home() {
   const formattedRecipe = formatRecipe(recipe);
 
   return (
-    <main className="h-full text-lg relative w-4/5 mx-auto bg-grey-400">
-      <h1 className="pt-3 pb-5 text-3xl font-bold">Préparez votre repas</h1>
+    <main className="h-full text-lg relative w-4/5 mx-auto bg-primary text-black">
+      <Header />
+      <h1 className="pt-36 pb-5 text-3xl font-bold">Préparez votre repas</h1>
       <div className="w-full pt-4 flex pb-6">
         <div className="flex flex-col md:flex-row">
           <div className="w-56 mb-4 md:mb-0">
@@ -137,7 +154,7 @@ export default function Home() {
                 placeholder="2"
                 value={state.persons}
                 onChange={handleDataChange}
-                errorMessage={errorState.persons ? " " : ""}
+                errorMessage={errorState.persons ? "A remplir" : ""}
               />
               &nbsp;personne(s)
             </div>
@@ -164,63 +181,65 @@ export default function Home() {
 
         */}
         <div
-          className={`collapse lg:w-1/2  collapse-arrow border border-base-300 bg-base-200 h-fit ${
-            errorState.ingredientList ? "border-red-500" : ""
+          className={`collapse lg:w-1/2  collapse-arrow border border-base-300 h-fit bg-secondary shadow-md${
+            errorState.ingredientList ? " border-red-500" : ""
           }`}
         >
-          <input type="checkbox" />
-          <h1 className="collapse-title pt-3 text-3xl font-bold">
-            Ingrédients disponibles
+          <input type="checkbox" className="peer" />
+          <h1 className="collapse-title pt-3 text-3xl font-bold peer-checked:bg-secondary peer-checked:text-secondary-content">
+            Ingrédients disponibles ({state.ingredientList.length})
             {errorState.ingredientList ? (
               <span className="pt-3 text-lg font-bold text-red-500">
-                &nbsp;&nbsp;&nbsp;(Min 3)
+                &nbsp;&nbsp;&nbsp;(Min 4)
               </span>
             ) : (
               ""
             )}
           </h1>
-          <div className="collapse-content">
-            <div className="w-full pt-4 flex pb-6">
-              <div className="flex flex-col md:flex-row">
-                <div className="w-56  mb-4 md:mb-0">
-                  <div>Ingrédient</div>
-                  <div>
-                    <Input
-                      classname="w-44 p-1 gap-4 rounded-md"
-                      errorMessage={
-                        errorState.ingredient ? "Entrez un ingrédient" : ""
-                      }
-                      section="ingredient"
-                      placeholder="carottes"
-                      value={state.ingredient}
-                      onChange={handleDataChange}
-                    />
-                  </div>
-                </div>
-                <div>
-                  <div>Quantité (facultatif)</div>
-                  <div className="flex flex-row">
-                    <Input
-                      classname="w-20 p-1 gap-4 rounded-md $"
-                      section="quantityNumber"
-                      placeholder="30"
-                      value={state.quantityNumber}
-                      onChange={handleDataChange}
-                    />
-                    <div className="pl-2">
-                      <DropMenu state={state} setState={setState} />
-                    </div>
-                    <div className="self-end pl-28">
-                      <Button
-                        classname="w-9 h-9 flex justify-center items-center	"
-                        text={<Plus />}
-                        onClick={handleSubmitIngredient}
+          <div className="collapse-content peer-checked:bg-secondary peer-checked:text-secondary-content">
+            <form onSubmit={handleSubmitIngredient}>
+              <div className="w-full pt-4 flex pb-6">
+                <div className="flex flex-col md:flex-row">
+                  <div className="w-56  mb-4 md:mb-0">
+                    <div>Ingrédient</div>
+                    <div>
+                      <Input
+                        classname="w-44 p-1 gap-4 rounded-md"
+                        errorMessage={
+                          errorState.ingredient ? "Entrez un ingrédient" : ""
+                        }
+                        section="ingredient"
+                        placeholder="carottes"
+                        value={state.ingredient}
+                        onChange={handleDataChange}
                       />
+                    </div>
+                  </div>
+                  <div>
+                    <div>Quantité (facultatif)</div>
+                    <div className="flex flex-row">
+                      <Input
+                        classname="w-20 p-1 gap-4 rounded-md"
+                        section="quantityNumber"
+                        placeholder="30"
+                        value={state.quantityNumber}
+                        onChange={handleDataChange}
+                      />
+                      <div className="pl-2">
+                        <DropMenu state={state} setState={setState} />
+                      </div>
+                      <div className="pl-28">
+                        <Button
+                          classname="w-9 h-9 flex justify-center items-center	rounded-md"
+                          text={<Plus />}
+                          type="submit"
+                        />
+                      </div>
                     </div>
                   </div>
                 </div>
               </div>
-            </div>
+            </form>
             <div className="text-2xl font-bold pb-2">Suggestions</div>
             <div className="h-28 overflow-x-auto mb-6 w-full">
               <SuggestionsList
@@ -256,38 +275,40 @@ export default function Home() {
         Kitchen Tools 
         
         */}
-        <div className="collapse lg:w-1/3  collapse-arrow border border-base-300 bg-base-200 h-fit ">
+        <div className="collapse lg:w-1/3 collapse-arrow border border-base-300 bg-secondary h-fit shadow-md">
           <input type="checkbox" />
           <h1 className="collapse-title pt-3 text-3xl font-bold">
             Matériel disponible
           </h1>
           <div className="collapse-content">
-            <div className="w-full pt-4 flex pb-6">
-              <div className="flex flex-col md:flex-row">
-                <div className="w-56  mb-4 md:mb-0">
-                  <div>Matériel</div>
-                  <div className="flex flex-row">
-                    <Input
-                      classname="w-44 p-1 gap-4 rounded-md"
-                      errorMessage={
-                        errorState.ingredient ? "Entrez un ingrédient" : ""
-                      }
-                      section="ingredient"
-                      placeholder="Four"
-                      value={state.ingredient}
-                      onChange={handleDataChange}
-                    />
-                    <div className="self-end pl-28">
-                      <Button
-                        classname="w-9 h-9 flex justify-center items-center	"
-                        text={<Plus />}
-                        onClick={handleSubmitIngredient}
+            <form onSubmit={handleSubmitEquipment}>
+              <div className="w-full pt-4 flex pb-6">
+                <div className="flex flex-col md:flex-row">
+                  <div className="w-56  mb-4 md:mb-0">
+                    <div>Matériel</div>
+                    <div className="flex flex-row">
+                      <Input
+                        classname="w-44 p-1 gap-4 rounded-md"
+                        errorMessage={
+                          errorState.equipment ? "Entrez l'équipement" : ""
+                        }
+                        section="equipment"
+                        placeholder="Four"
+                        value={state.equipment}
+                        onChange={handleDataChange}
                       />
+                      <div className="pl-28">
+                        <Button
+                          classname="w-9 h-9 flex justify-center items-center	rounded-md"
+                          text={<Plus />}
+                          type="submit"
+                        />
+                      </div>
                     </div>
                   </div>
                 </div>
               </div>
-            </div>
+            </form>
             <div className="text-2xl font-bold pb-2">Suggestions</div>
             <div className="h-28 overflow-x-auto mb-6 w-full">
               <SuggestionsList
@@ -325,12 +346,12 @@ export default function Home() {
             <Sparkles />
           </span>
         }
-        classname="mb-12 mt-6"
+        classname="mb-12 mt-6 rounded-3xl px-12 py-2 shadow-lg"
         onClick={handleGenerateInstructions}
       />
       {recipe ? (
         <Button
-          classname="ml-8"
+          classname="ml-8 rounded-3xl px-12 py-2 shadow-lg"
           text="Résultat"
           onClick={() => setisRecipeModalOpen(true)}
         />

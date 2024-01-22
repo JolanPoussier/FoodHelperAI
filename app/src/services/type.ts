@@ -9,6 +9,7 @@ export type setState = (
     }[];
     cookingTime: string;
     ingredient: string;
+    equipment: string;
     quantityNumber: string;
     quantityUnit: string;
     kitchenEquipmentList: string[];
@@ -23,6 +24,7 @@ export type state = {
   }[];
   cookingTime: string;
   ingredient: string;
+  equipment: string;
   quantityNumber: string;
   quantityUnit: string;
   kitchenEquipmentList: string[];

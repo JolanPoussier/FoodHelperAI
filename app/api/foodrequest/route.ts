@@ -26,10 +26,11 @@ export const POST = async (req: Request) => {
     * Don't skip a after a recipe preparation step
     * Don't skip a line after a line that start with a number
     * You have to introduce the recipe with the title/name of the recipe first then "Ingrédients:" for the ingredients, "Matériel nécessaire:" for the needed kitchen equipment and "Préparation:" for the different steps in this specific order. Dont skip a line after those lines.
+    * If the recipe includes pie pastry, pie crust dough (pâtes feuilletés, à tarte, brisé), link to the home page of Marmiton and make the recipe for 4 persons despite the user choice
     `;
   const { instructions } = await req.json();
   const response = await openai.chat.completions.create({
-    model: "gpt-3.5-turbo",
+    model: "gpt-4-1106-preview",
     stream: true,
     messages: [
       {

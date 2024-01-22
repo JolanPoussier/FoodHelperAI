@@ -39,7 +39,7 @@ export default function MyDropdown({
       <button
         id="dropdownDefaultButton"
         onClick={toggleDropdown}
-        className="text-white bg-gray-600 hover:bg-gray-700 focus:ring-gray-800 focus:ring-4 focus:outline-none font-medium rounded-lg text-sm px-5 py-2 text-center inline-flex items-center"
+        className="text-black bg-gray-300 hover:bg-gray-500 focus:ring-gray-400 focus:ring-2 focus:outline-none font-medium rounded-lg text-sm px-5 py-2 text-center inline-flex items-center"
         type="button"
       >
         {state.quantityUnit == "" ? "-" : state.quantityUnit}
@@ -49,10 +49,10 @@ export default function MyDropdown({
         id="dropdown"
         className={`z-50 absolute ${
           isDropdownOpen ? "" : "hidden"
-        } bg-white divide-y divide-gray-100 rounded-lg shadow w-15 dark:bg-gray-700`}
+        } bg-white divide-y divide-gray-100 rounded-lg shadow w-15 dark:bg-gray-500`}
       >
         <ul
-          className="py-2 text-sm text-gray-700 dark:text-gray-200"
+          className="py-2 text-sm text-gray-500 dark:text-gray-200"
           aria-labelledby="dropdownDefaultButton"
         >
           {unityTab.map((unity, index) => (

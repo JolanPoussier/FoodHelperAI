@@ -25,7 +25,7 @@ export default function SuggestionsList({
           }}
           text={suggestion}
           key={index}
-          classname="mr-4 mb-2 min-w-32 max-w-40"
+          classname="mr-4 mb-2 min-w-32 max-w-40 rounded-3xl"
         />
       ))}
     </div>
