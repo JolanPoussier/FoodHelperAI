@@ -2,3 +2,8 @@
 @tailwind components;
 @tailwind utilities;
 
+@layer utilities {
+    .scrollbar-medium::-webkit-scrollbar {
+        width: 12px;
+    }
+}

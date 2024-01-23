@@ -35,7 +35,7 @@ export default function DisplayList({
           </div>
           <Button
             text={<Trash2 />}
-            classname="px-2.5 rounded-md bg-transparent text-gray-950 hover:bg-red-50 hover:text-red-500"
+            classname="px-2.5 rounded-md bg-transparent text-gray-900 hover:bg-red-50 hover:text-red-500"
             onClick={() => handleDelete(index)}
           />
         </div>

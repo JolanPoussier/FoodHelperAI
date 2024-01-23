@@ -15,6 +15,7 @@ import {
 } from "./src/services/datas";
 import DisplayList from "./components/displayList";
 import Header from "./components/header";
+import GenerateRecipeSection from "./components/generateRecipeSection";
 
 export default function Home() {
   const [instructions, setInstructions] = useState("");
@@ -140,9 +141,11 @@ export default function Home() {
   const formattedRecipe = formatRecipe(recipe);
 
   return (
-    <main className="h-full text-lg relative w-4/5 mx-auto bg-primary text-black">
+    <main className="h-full text-lg relative w-4/5 md:w-2/3 lg:w-1/2 max-w-[605px] mx-auto bg-primary text-black">
       <Header />
-      <h1 className="pt-36 pb-5 text-3xl font-bold">Préparez votre repas</h1>
+      <h1 className="pt-48 pb-5 text-3xl font-bold w-full">
+        Préparez votre repas
+      </h1>
       <div className="w-full pt-4 flex pb-6">
         <div className="flex flex-col md:flex-row">
           <div className="w-56 mb-4 md:mb-0">
@@ -174,23 +177,23 @@ export default function Home() {
           </div>
         </div>
       </div>
-      <div className="w-full flex flex-row justify-between my-6">
+      <div className="w-full flex flex-col justify-between my-6">
         {/* 
 
         Ingredient Side 
 
         */}
         <div
-          className={`collapse lg:w-1/2  collapse-arrow border border-base-300 h-fit bg-secondary shadow-md${
+          className={`collapse w-full max-w-[605px] collapse-arrow border border-base-300 h-fit bg-secondary shadow-md${
             errorState.ingredientList ? " border-red-500" : ""
           }`}
         >
           <input type="checkbox" className="peer" />
-          <h1 className="collapse-title pt-3 text-3xl font-bold peer-checked:bg-secondary peer-checked:text-secondary-content">
+          <h1 className="collapse-title pt-3 text-2xl font-bold peer-checked:bg-secondary peer-checked:text-secondary-content">
             Ingrédients disponibles ({state.ingredientList.length})
             {errorState.ingredientList ? (
               <span className="pt-3 text-lg font-bold text-red-500">
-                &nbsp;&nbsp;&nbsp;(Min 4)
+                &nbsp;&nbsp;&nbsp;{`(Min 4)`}
               </span>
             ) : (
               ""
@@ -241,7 +244,7 @@ export default function Home() {
               </div>
             </form>
             <div className="text-2xl font-bold pb-2">Suggestions</div>
-            <div className="h-28 overflow-x-auto mb-6 w-full">
+            <div className="h-28 overflow-x-auto mb-6 w-full scrollbar">
               <SuggestionsList
                 submitSuggestion={(suggestion) => {
                   setState({
@@ -275,9 +278,9 @@ export default function Home() {
         Kitchen Tools 
         
         */}
-        <div className="collapse lg:w-1/3 collapse-arrow border border-base-300 bg-secondary h-fit shadow-md">
+        <div className="collapse w-full max-w-[605px] collapse-arrow mt-8 border border-base-300 bg-secondary h-fit shadow-md">
           <input type="checkbox" />
-          <h1 className="collapse-title pt-3 text-3xl font-bold">
+          <h1 className="collapse-title pt-3 text-2xl font-bold">
             Matériel disponible
           </h1>
           <div className="collapse-content">
@@ -297,7 +300,7 @@ export default function Home() {
                         value={state.equipment}
                         onChange={handleDataChange}
                       />
-                      <div className="pl-28">
+                      <div className="pl-14 md:pl-28">
                         <Button
                           classname="w-9 h-9 flex justify-center items-center	rounded-md"
                           text={<Plus />}
@@ -338,26 +341,11 @@ export default function Home() {
       </div>
 
       {/* Validation Buttons */}
-      <Button
-        text={
-          <span className="flex flex-raw">
-            {!recipe ? "Générer" : "Autre recette"}
-            &nbsp;&nbsp;&nbsp;
-            <Sparkles />
-          </span>
-        }
-        classname="mb-12 mt-6 rounded-3xl px-12 py-2 shadow-lg"
-        onClick={handleGenerateInstructions}
+      <GenerateRecipeSection
+        openModal={setisRecipeModalOpen}
+        generateInstructions={handleGenerateInstructions}
+        recipe={!!recipe}
       />
-      {recipe ? (
-        <Button
-          classname="ml-8 rounded-3xl px-12 py-2 shadow-lg"
-          text="Résultat"
-          onClick={() => setisRecipeModalOpen(true)}
-        />
-      ) : (
-        ""
-      )}
       <ModalDisplayRecipe
         formattedRecipe={formattedRecipe}
         setisRecipeModalOpen={setisRecipeModalOpen}

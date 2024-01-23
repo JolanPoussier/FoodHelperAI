@@ -21,16 +21,18 @@ export const POST = async (req: Request) => {
     * You can add spices and aromatics without them to be in the prompt 
     * You have to write only the name of the recipe and the content of it 
     * First line HAS TO BE the name of the recipe
-    * You can ONLY USE the kitchen equipment available given by the user
+    * You can ONLY USE the kitchen equipments given by the user if there is any
     * Don't skip a line between the different steps
-    * Don't skip a after a recipe preparation step
+    * Don't skip a line after a recipe's preparation step
     * Don't skip a line after a line that start with a number
+    * Don't give the same recipe tice in the same thread
     * You have to introduce the recipe with the title/name of the recipe first then "Ingrédients:" for the ingredients, "Matériel nécessaire:" for the needed kitchen equipment and "Préparation:" for the different steps in this specific order. Dont skip a line after those lines.
     * If the recipe includes pie pastry, pie crust dough (pâtes feuilletés, à tarte, brisé), link to the home page of Marmiton and make the recipe for 4 persons despite the user choice
     `;
   const { instructions } = await req.json();
   const response = await openai.chat.completions.create({
-    model: "gpt-4-1106-preview",
+    // model: "gpt-4-1106-preview",
+    model: "gpt-3.5-turbo",
     stream: true,
     messages: [
       {
