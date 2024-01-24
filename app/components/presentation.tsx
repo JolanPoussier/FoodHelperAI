@@ -11,7 +11,7 @@ export default function Presentation() {
         réfrigirateur et de vos placards et laissez la créativité du cuisinier
         vous guider. Plus qu&apos;à saisir son couteau !
         <br />
-        Saisissez un maximum d&apos;ingrédients pour des recettes plus
+        Ajoutez un maximum d&apos;ingrédients pour des recettes plus
         sophistiquées et variées.
       </div>
     </div>
