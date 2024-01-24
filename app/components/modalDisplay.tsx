@@ -56,9 +56,9 @@ export default function ModalDisplayRecipe({
       <div
         id="dropdown"
         ref={modalRef}
-        className="absolute z-50 w-11/12 h-5/6 bg-primary divide-y divide-gray-100 rounded-lg shadow w-15 overflow-y-scroll"
+        className="absolute z-50 w-11/12 h-5/6 bg-primary divide-y divide-gray-100 rounded-lg shadow w-15 overflow-y-scroll scrollbar"
       >
-        <pre className="w-full whitespace-pre-wrap overflow-wrap-break-word p-6 text-black">
+        <pre className="w-full whitespace-pre-wrap overflow-wrap-break-word p-6 text-gray-800">
           <span
             className="block"
             dangerouslySetInnerHTML={{ __html: formattedRecipe }}

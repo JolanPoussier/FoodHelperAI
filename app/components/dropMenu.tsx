@@ -39,7 +39,7 @@ export default function MyDropdown({
       <button
         id="dropdownDefaultButton"
         onClick={toggleDropdown}
-        className="text-black bg-gray-300 hover:bg-gray-500 focus:ring-gray-400 focus:ring-2 focus:outline-none font-medium rounded-lg text-sm px-5 py-2 text-center inline-flex items-center"
+        className="text-gray-800 bg-gray-300 hover:bg-gray-500 focus:ring-gray-400 focus:ring-2 focus:outline-none font-medium rounded-lg text-sm px-5 py-2 text-center inline-flex items-center"
         type="button"
       >
         {state.quantityUnit == "" ? "-" : state.quantityUnit}
