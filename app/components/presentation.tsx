@@ -8,11 +8,11 @@ export default function Presentation() {
       <div className="sm:ml-6 text-jusitfy">
         Pas d&apos;inspiration devant votre frigo ? AI Cooker propose une
         alternative facile et rapide. Entrez simplement le contenu de votre
-        réfrigirateur et de vos placards et laisser la créativité du cuisinier
-        vous guider. Plus qu&apos;à saisir son couteau
+        réfrigirateur et de vos placards et laissez la créativité du cuisinier
+        vous guider. Plus qu&apos;à saisir son couteau !
         <br />
         Saisissez un maximum d&apos;ingrédients pour des recettes plus
-        sophistiquées et variées !
+        sophistiquées et variées.
       </div>
     </div>
   );
