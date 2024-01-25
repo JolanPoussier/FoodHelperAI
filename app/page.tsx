@@ -131,8 +131,8 @@ export default function Home() {
     await readChunk();
   };
 
+  console.log("v2");
   if (instructions) {
-    console.log(instructions);
     handleSubmit();
   }
 
