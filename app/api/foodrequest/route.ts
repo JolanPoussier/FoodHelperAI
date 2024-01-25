@@ -1,6 +1,6 @@
 import { openai } from "@/app/src/lib/openai";
 import { OpenAIStream, StreamingTextResponse } from "ai";
-export const maxDuration = 10;
+export const maxDuration = 20;
 
 export const POST = async (req: Request) => {
   // Utile pour utilisation d'une API plus performante
