@@ -34,6 +34,7 @@ export const POST = async (req: Request) => {
     model: "gpt-4-1106-preview",
     // model: "gpt-3.5-turbo",
     stream: true,
+    max_tokens: 100,
     messages: [
       {
         role: "assistant",

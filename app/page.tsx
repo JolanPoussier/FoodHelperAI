@@ -141,6 +141,7 @@ export default function Home() {
   }
 
   const formattedRecipe = formatRecipe(recipe);
+  console.log(formattedRecipe);
 
   return (
     <main className="h-full text-lg relative w-full sm:w-4/5 md:w-2/3 xl:w-1/2 max-w-[800px] mx-auto bg-primary text-gray-800">
