@@ -131,7 +131,6 @@ export default function Home() {
     await readChunk();
   };
 
-  console.log("v4");
   if (instructions) {
     handleSubmit();
   }
@@ -141,7 +140,6 @@ export default function Home() {
   }
 
   const formattedRecipe = formatRecipe(recipe);
-  console.log(formattedRecipe);
 
   return (
     <main className="h-full text-lg relative w-full sm:w-4/5 md:w-2/3 xl:w-1/2 max-w-[800px] mx-auto bg-primary text-gray-800">
@@ -192,7 +190,7 @@ export default function Home() {
             }`}
           >
             <input type="checkbox" className="peer" />
-            <h1 className="collapse-title pt-3 text-2xl font-bold peer-checked:bg-secondary peer-checked:text-secondary-content">
+            <h1 className="collapse-title pt-3 text-2xl font-bold">
               Ingrédients disponibles ({state.ingredientList.length})
               {errorState.ingredientList ? (
                 <span className="pt-3 text-lg font-bold text-red-500">
@@ -202,7 +200,7 @@ export default function Home() {
                 ""
               )}
             </h1>
-            <div className="collapse-content peer-checked:bg-secondary peer-checked:text-secondary-content">
+            <div className="collapse-content">
               <form onSubmit={handleSubmitIngredient}>
                 <div className="w-full pt-4 flex pb-6">
                   <div className="flex flex-col md:flex-row">
