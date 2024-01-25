@@ -1,5 +1,6 @@
 import { openai } from "@/app/src/lib/openai";
 import { OpenAIStream, StreamingTextResponse } from "ai";
+export const maxDuration = 10;
 
 export const POST = async (req: Request) => {
   // Utile pour utilisation d'une API plus performante
@@ -34,7 +35,6 @@ export const POST = async (req: Request) => {
     // model: "gpt-4-1106-preview",
     model: "gpt-3.5-turbo",
     stream: true,
-    max_tokens: 1000,
     messages: [
       {
         role: "assistant",
