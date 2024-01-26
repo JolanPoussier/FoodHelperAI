@@ -190,7 +190,7 @@ export default function Home() {
             }`}
           >
             <input type="checkbox" className="peer" />
-            <h1 className="collapse-title pt-3 text-2xl font-bold">
+            <h2 className="collapse-title pt-3 text-2xl font-bold">
               Ingrédients disponibles ({state.ingredientList.length})
               {errorState.ingredientList ? (
                 <span className="pt-3 text-lg font-bold text-red-500">
@@ -199,7 +199,7 @@ export default function Home() {
               ) : (
                 ""
               )}
-            </h1>
+            </h2>
             <div className="collapse-content">
               <form onSubmit={handleSubmitIngredient}>
                 <div className="w-full pt-4 flex pb-6">
