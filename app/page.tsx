@@ -17,6 +17,8 @@ import DisplayList from "./components/displayList";
 import Header from "./components/header";
 import GenerateRecipeSection from "./components/generateRecipeSection";
 import Presentation from "./components/presentation";
+import layout from "@/public/layout.jpeg";
+import Image from "next/image";
 
 export default function Home() {
   const [instructions, setInstructions] = useState("");
@@ -142,7 +144,7 @@ export default function Home() {
   const formattedRecipe = formatRecipe(recipe);
 
   return (
-    <main className="h-full text-lg relative w-full sm:w-4/5 md:w-2/3 xl:w-1/2 max-w-[800px] mx-auto bg-primary text-gray-800">
+    <main className="h-full text-lg relative sm:w-4/5 md:w-2/3 max-w-[1000px] mx-auto text-gray-800">
       <Header />
       <Presentation />
       <div className="mt-8 px-6 flex flex-col items-center bg-secondary rounded-2xl">
@@ -164,7 +166,7 @@ export default function Home() {
               </div>
             </div>
             <div className="">
-              <div>Temps de préparation (facultatif)</div>
+              <div>Temps de préparation</div>
               <div className="flex items-center">
                 <Input
                   classname="w-20 p-1 gap-4 rounded-md"
@@ -178,19 +180,19 @@ export default function Home() {
             </div>
           </div>
         </div>
-        <div className="w-full flex flex-col items-center my-6">
+        <div className="w-full flex flex-col 2xl:flex-row items-center 2xl:items-start my-6">
           {/* 
 
         Ingredient Side 
 
         */}
           <div
-            className={`collapse w-full max-w-[605px] collapse-arrow border border-gray-200 h-fit bg-secondary shadow-md${
+            className={`collapse w-full 2xl:w-1/2 max-w-[605px] collapse-arrow border border-gray-200 h-fit bg-secondary shadow-md${
               errorState.ingredientList ? " border-red-500" : ""
             }`}
           >
             <input type="checkbox" className="peer" />
-            <h2 className="collapse-title pt-3 text-2xl font-bold">
+            <h1 className="collapse-title pt-3 text-2xl font-bold">
               Ingrédients disponibles ({state.ingredientList.length})
               {errorState.ingredientList ? (
                 <span className="pt-3 text-lg font-bold text-red-500">
@@ -199,16 +201,16 @@ export default function Home() {
               ) : (
                 ""
               )}
-            </h2>
+            </h1>
             <div className="collapse-content">
               <form onSubmit={handleSubmitIngredient}>
                 <div className="w-full pt-4 flex pb-6">
                   <div className="flex flex-col md:flex-row">
-                    <div className="w-56  mb-4 md:mb-0">
+                    <div className="w-48 mb-4 md:mb-0">
                       <div>Ingrédient</div>
                       <div>
                         <Input
-                          classname="w-44 p-1 gap-4 rounded-md"
+                          classname="w-36 p-1 rounded-md"
                           errorMessage={
                             errorState.ingredient ? "Entrez un ingrédient" : ""
                           }
@@ -279,7 +281,7 @@ export default function Home() {
         Kitchen Tools 
         
         */}
-          <div className="collapse w-full max-w-[605px] collapse-arrow mt-8 border border-gray-200 bg-secondary h-fit shadow-md">
+          <div className="collapse w-full 2xl:w-1/2 max-w-[605px] collapse-arrow mt-8 2xl:mt-0 2xl:ml-4 border border-gray-200 bg-secondary h-fit shadow-md">
             <input type="checkbox" />
             <h1 className="collapse-title pt-3 text-2xl font-bold">
               Matériel disponible

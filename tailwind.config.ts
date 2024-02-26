@@ -19,7 +19,7 @@ const config: Config = {
       },
       colors: {
         primary: "#f1f5f9",
-        secondary: "white",
+        secondary: "#fafafa",
         accent: "#16a34a",
         accentHover: "#15803d",
       },

@@ -17,7 +17,17 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en" className="h-full bg-primary">
-      <body className={clsx(inter.className, "h-full")}>{children}</body>
+      <body
+        className={clsx(inter.className, "min-h-full", "bg-cover bg-fixed")}
+        style={{
+          backgroundImage: "url('/layout.jpeg')",
+        }}
+      >
+        <div
+          className="fixed inset-0 bg-white opacity-75" // Ajustez l'opacité ici (0 pour transparent, 100 pour opaque)
+        />
+        {children}
+      </body>
     </html>
   );
 }
