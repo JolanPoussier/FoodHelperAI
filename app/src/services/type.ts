@@ -29,3 +29,19 @@ export type state = {
   quantityUnit: string;
   kitchenEquipmentList: string[];
 };
+
+export type setErrorState = (
+  value: SetStateAction<{
+    persons: boolean;
+    ingredient: boolean;
+    ingredientList: boolean;
+    equipment: boolean;
+  }>
+) => void;
+
+export type errorState = {
+  persons: boolean;
+  ingredient: boolean;
+  ingredientList: boolean;
+  equipment: boolean;
+};
