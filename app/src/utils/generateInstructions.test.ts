@@ -1,4 +1,4 @@
-import generateInstructions from "../app/src/utils/generateInstructions";
+import generateInstructions from "./generateInstructions";
 
 const datasState = {
   persons: "2",
