@@ -1,13 +1,16 @@
 import { test, expect } from "@playwright/test";
 
 test("has title", async ({ page }) => {
-  await page.goto("http://localhost:3000/");
+  await page.goto("https://ia-cooker-2cd92e0c1e3b.herokuapp.com/");
 
   // Expect a title "to contain" a substring.
   await expect(page).toHaveTitle(/AI Cooker/);
 });
 
-test.beforeEach(async ({ page }) => await page.goto("http://localhost:3000/"));
+test.beforeEach(
+  async ({ page }) =>
+    await page.goto("https://ia-cooker-2cd92e0c1e3b.herokuapp.com/")
+);
 
 test.describe("Enter ingredients", () => {
   test("should allow me to enter manualy first ingredient", async ({
