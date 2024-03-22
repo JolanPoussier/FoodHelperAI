@@ -5,12 +5,7 @@ import SuggestionsList from "./suggestionsList";
 import DisplayList from "./displayList";
 import DropMenu from "./dropMenu";
 import { suggestionsListIngredients } from "../src/services/datas";
-import {
-  errorState,
-  setErrorState,
-  setState,
-  state,
-} from "../src/services/type";
+import { errorState, setState, state } from "../src/services/type";
 import { FormEvent } from "react";
 
 export default function Ingredients({
@@ -89,7 +84,7 @@ export default function Ingredients({
                   <Input
                     classname="w-20 p-1 gap-4 rounded-md"
                     section="quantityNumber"
-                    placeholder="30"
+                    placeholder="8"
                     value={state.quantityNumber}
                     onChange={handleDataChange}
                   />
@@ -101,6 +96,7 @@ export default function Ingredients({
                       classname="w-9 h-9 flex justify-center items-center	rounded-md"
                       text={<Plus />}
                       type="submit"
+                      id="+"
                     />
                   </div>
                 </div>

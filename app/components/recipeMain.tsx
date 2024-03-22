@@ -1,7 +1,6 @@
 "use client";
 
 import { useState } from "react";
-import Input from "./input";
 import KitchenTools from "./kitchenTools";
 import Ingredients from "./ingredients";
 import DisplaySection from "./displaySection";
