@@ -61,6 +61,7 @@ export default function KitchenTools({
                       classname="w-9 h-9 flex justify-center items-center rounded-md"
                       text={<Plus />}
                       type="submit"
+                      id="+"
                     />
                   </div>
                 </div>
