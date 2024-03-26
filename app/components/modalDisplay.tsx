@@ -54,7 +54,7 @@ export default function ModalDisplayRecipe({
         onClick={() => setisRecipeModalOpen(false)}
       />
       <div
-        id="dropdown"
+        id="dropdownModal"
         ref={modalRef}
         className="absolute z-50 w-11/12 h-5/6 bg-primary divide-y divide-gray-100 rounded-lg shadow w-15 overflow-y-scroll scrollbar"
       >
